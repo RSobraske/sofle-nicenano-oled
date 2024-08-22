@@ -76,6 +76,41 @@
             bindings = <&none &kp LS(R) &kp Y &kp A &kp N &kp DOT &kp LS(S) &kp O &kp B &kp R &kp A &kp S &kp K &kp E &kp AT &kp LS(F) &kp A &kp I &kp R &kp V &kp I &kp E &kp W &kp DOT &kp O &kp R &kp G>;
             label = "USERNAME";
         };
+
+        maccopy: maccopy {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LEFT_COMMAND &kp C>;
+            label = "MACCOPY";
+        };
+
+        macselectall: macselectall {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LEFT_COMMAND &kp A>;
+            label = "MACSELECTALL";
+        };
+
+        maccut: maccut {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LEFT_COMMAND &kp X>;
+            label = "MACCUT";
+        };
+
+        macpaste: macpaste {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LEFT_COMMAND &kp V>;
+            label = "MACPASTE";
+        };
+
+        macspotlight: macspotlight {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LEFT_SHIFT &kp SPACE>;
+            label = "MACSPOTLIGHT";
+        };
     };
 
     keymap {
@@ -119,7 +154,7 @@
 &trans        &kp F1     &kp F2        &kp F3       &kp F4    &kp F5                       &kp F6     &kp F7    &kp F8           &kp F9     &kp F10   &kp F11
 &kp CAPSLOCK  &kp N1     &kp NUMBER_2  &kp N3       &kp N4    &kp N5                       &kp N6     &kp N7    &kp N8           &kp N9     &kp N0    &kp F12
 &trans        &kp EXCL   &kp AT        &kp HASH     &kp DLLR  &kp PRCNT                    &kp CARET  &kp AMPS  &kp KP_MULTIPLY  &kp LPAR   &kp RPAR  &kp LEFT_CONTROL
-&kp LEFT_GUI  &kp EQUAL  &kp MINUS     &kp KP_PLUS  &kp LBRC  &kp RBRC   &trans    &trans  &kp LBKT   &kp RBKT  &kp SEMI         &kp COLON  &kp BSLH  &trans
+&kp LEFT_GUI  &kp EQUAL  &kp MINUS     &kp KP_PLUS  &kp LBRC  &kp RBRC   &tog 2    &trans  &kp LBKT   &kp RBKT  &kp SEMI         &kp COLON  &kp BSLH  &trans
                          &trans        &trans       &trans    &trans     &trans    &trans  &trans     &trans    &trans           &trans
             >;
 
@@ -139,14 +174,16 @@
             //                |      |       |       |      |      |  |      |      |      |       |      |
 
             bindings = <
-&bt BT_CLR  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4                    &trans     &trans    &trans    &trans     &trans   &trans
-&trans      &kp INS       &kp PSCRN     &kp K_CMENU   &trans        &trans                          &kp PG_UP  &trans    &kp UP    &trans     &kp N0   &trans
-&trans      &kp LALT      &kp LCTRL     &kp LSHFT     &trans        &kp CLCK                        &kp PG_DN  &kp LEFT  &kp DOWN  &kp RIGHT  &kp DEL  &kp BSPC
-&trans      &kp K_UNDO    &kp K_CUT     &kp K_COPY    &kp K_PASTE   &trans        &trans    &trans  &trans     &trans    &trans    &trans     &trans   &trans
-                          &trans        &trans        &trans        &trans        &trans    &trans  &trans     &trans    &trans    &trans
+&kp ESCAPE      &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3   &kp NUMBER_4  &kp N5                                 &kp NUMBER_6  &kp N7          &kp N8           &kp N9          &kp N0         &kp BACKSPACE
+&kp TAB         &kp Q         &kp W         &kp E          &kp R         &kp T                                  &kp Y         &kp U           &kp I            &kp O           &kp P          &kp RIGHT_ALT
+&trans          &kp A         &kp S         &kp D          &kp F         &kp G                                  &kp H         &kp J           &kp K            &kp L           &kp SEMICOLON  &kp SQT
+&kp LEFT_SHIFT  &kp Z         &kp X         &kp C          &kp V         &kp B      &macspotlight    &tog 0     &kp N         &kp M           &kp COMMA        &kp PERIOD      &kp SLASH      &mo 3
+                              &maccopy      &macselectall  &maccut       &macpaste  &kp ENTER        &kp SPACE  &kp UP_ARROW  &kp LEFT_ARROW  &kp RIGHT_ARROW  &kp DOWN_ARROW
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings =
+                <&inc_dec_kp K_VOLUME_DOWN K_VOLUME_UP>,
+                <&inc_dec_kp PG_UP PG_DN>;
         };
 
         adjust_layer {
@@ -161,8 +198,8 @@
             bindings = <
 &bt BT_CLR         &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3     &bt BT_SEL 4                               &none  &none  &none  &none  &none  &none
 &ext_power EP_TOG  &rgb_ug RGB_HUD  &rgb_ug RGB_HUI  &rgb_ug RGB_SAD  &rgb_ug RGB_SAI  &rgb_ug RGB_EFF                            &none  &none  &none  &none  &none  &none
-&none              &rgb_ug RGB_BRD  &rgb_ug RGB_BRI  &none            &none            &none                                      &none  &none  &none  &none  &none  &none
-&none              &none            &none            &none            &none            &none            &rgb_ug RGB_TOG    &none  &none  &none  &none  &none  &none  &none
+&none              &kp EXCLAMATION  &kp MINUS        &none            &none            &none                                      &none  &none  &none  &none  &none  &none
+&none              &kp EQUAL        &kp MINUS        &kp PLUS         &kp UNDER        &none            &rgb_ug RGB_TOG    &none  &none  &none  &none  &none  &none  &none
                                     &none            &none            &none            &none            &none              &none  &none  &none  &none  &none
             >;
         };
